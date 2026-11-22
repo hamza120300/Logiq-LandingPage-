@@ -1,0 +1,8 @@
+{
+  "version": "1.0.0",
+  "integration": "agy",
+  "script_runner": "powershell",
+  "specs_dir": "specs",
+  "templates_dir": ".specify/templates",
+  "memory_dir": ".specify/memory"
+}
