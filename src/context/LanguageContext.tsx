@@ -25,6 +25,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   });
 
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const t = translations[lang];
 
   const setLang = (newLang: Language) => {
     setLangState(newLang);
@@ -49,7 +50,16 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       document.body.classList.add('font-sans');
       document.body.classList.remove('font-arabic');
     }
-  }, [lang, dir]);
+
+    // Dynamic SEO update on language toggle
+    if (t?.meta) {
+      document.title = t.meta.title;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) {
+        metaDesc.setAttribute('content', t.meta.description);
+      }
+    }
+  }, [lang, dir, t]);
 
   return (
     <LanguageContext.Provider
@@ -58,7 +68,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         dir,
         setLang,
         toggleLang,
-        t: translations[lang],
+        t,
       }}
     >
       {children}
