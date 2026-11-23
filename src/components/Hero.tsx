@@ -78,7 +78,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
           </div>
 
           {/* Hero Title */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.12] max-w-5xl mx-auto">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.18] max-w-5xl mx-auto">
             {t.hero.titlePart1}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2BB8B3] via-[#34D6BA] to-[#2BB8B3] drop-shadow-[0_0_35px_rgba(43,184,179,0.45)]">
               {t.hero.titleHighlight}
@@ -174,18 +174,18 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
 
                 <div className="bg-[#0B1C2E]/90 border border-[#0A6F7A]/30 rounded-xl p-3">
                   <div className="text-xs text-slate-400">{dir === 'rtl' ? 'الأصناف النشطة' : 'Active Items'}</div>
-                  <div className="text-xl sm:text-2xl font-black text-[#2BB8B3] mt-1">1,480 SKU</div>
+                  <div className="text-xl sm:text-2xl font-black text-[#2BB8B3] mt-1" dir="ltr">1,480 SKU</div>
                   <div className="text-[11px] text-emerald-400 mt-0.5 flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3" />
+                    <ShieldCheck className="w-3 h-3 flex-shrink-0" />
                     <span>{dir === 'rtl' ? 'مطابقة 100%' : '100% Synced'}</span>
                   </div>
                 </div>
 
                 <div className="bg-[#0B1C2E]/90 border border-[#0A6F7A]/30 rounded-xl p-3">
                   <div className="text-xs text-slate-400">{dir === 'rtl' ? 'سرعة النظام' : 'Engine Latency'}</div>
-                  <div className="text-xl sm:text-2xl font-black text-[#34D6BA] mt-1">12 ms</div>
+                  <div className="text-xl sm:text-2xl font-black text-[#34D6BA] mt-1" dir="ltr">12 ms</div>
                   <div className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-1">
-                    <Zap className="w-3 h-3 text-[#34D6BA]" />
+                    <Zap className="w-3 h-3 text-[#34D6BA] flex-shrink-0" />
                     <span>{t.hero.mockup.liveIndicator}</span>
                   </div>
                 </div>
@@ -205,21 +205,21 @@ export const Hero: React.FC<HeroProps> = ({ onOpenContact }) => {
                   {liveTransactions.map((tx) => (
                     <div
                       key={tx.id}
-                      className="flex items-center justify-between p-2.5 rounded-lg bg-[#07151E] border border-slate-800/80 hover:border-[#0A6F7A]/50 transition-all text-xs animate-fadeIn"
+                      className="flex items-center justify-between p-2.5 rounded-lg bg-[#07151E] border border-slate-800/80 hover:border-[#0A6F7A]/50 transition-all text-xs animate-fadeIn gap-2"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-slate-400">#{tx.id}</span>
-                        <span className="text-white font-medium">{tx.item}</span>
-                        <span className="hidden sm:inline text-slate-400 font-mono text-[11px]">{tx.time}</span>
+                      <div className="flex items-center gap-2 sm:gap-3 truncate">
+                        <span className="font-mono text-slate-400 flex-shrink-0">#{tx.id}</span>
+                        <span className="text-white font-medium truncate">{tx.item}</span>
+                        <span className="hidden md:inline text-slate-400 font-mono text-[11px] flex-shrink-0">{tx.time}</span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-slate-400 text-[11px] bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                      <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                        <span className="text-slate-400 text-[10px] sm:text-[11px] bg-slate-900 px-1.5 sm:px-2 py-0.5 rounded border border-slate-800">
                           {tx.method}
                         </span>
-                        <span className="font-bold text-white">
+                        <span className="font-bold text-white text-xs whitespace-nowrap">
                           {tx.amount} {t.hero.mockup.currency}
                         </span>
-                        <span className="text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-2 py-0.5 rounded text-[11px] font-semibold">
+                        <span className="text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-semibold whitespace-nowrap">
                           {t.hero.mockup.paid}
                         </span>
                       </div>

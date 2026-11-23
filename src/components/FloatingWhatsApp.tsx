@@ -27,7 +27,7 @@ export const FloatingWhatsApp: React.FC = () => {
   return (
     <aside
       aria-label="WhatsApp quick support"
-      className="fixed bottom-6 end-6 z-40 animate-fadeIn"
+      className="fixed bottom-5 end-5 z-40 animate-fadeIn"
       dir={dir}
     >
       <a
@@ -35,15 +35,16 @@ export const FloatingWhatsApp: React.FC = () => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Chat with us on WhatsApp'}
-        className="group flex items-center gap-3 px-4 py-3 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-sm shadow-[0_0_25px_rgba(37,211,102,0.4)] transition-all transform hover:scale-105 active:scale-95 focus-visible:ring-4 focus-visible:ring-[#25D366]/40"
+        className="group relative flex items-center justify-center gap-2.5 p-3.5 sm:px-5 sm:py-3.5 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-sm shadow-[0_0_25px_rgba(37,211,102,0.45)] transition-all transform hover:scale-105 active:scale-95 focus-visible:ring-4 focus-visible:ring-[#25D366]/40"
       >
-        <MessageCircle className="w-6 h-6 fill-white text-[#25D366]" />
+        <MessageCircle className="w-6 h-6 fill-white text-[#25D366] flex-shrink-0" />
         <span className="hidden sm:inline font-bold">
           {lang === 'ar' ? 'تحدث معنا واتساب' : 'Chat on WhatsApp'}
         </span>
-        <span className="relative flex h-2.5 w-2.5">
+        {/* Glowing notification badge in corner */}
+        <span className="absolute -top-1 -end-1 flex h-3 w-3">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-white" />
         </span>
       </a>
     </aside>

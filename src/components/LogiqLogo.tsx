@@ -41,7 +41,7 @@ export const LogiqLogo: React.FC<LogiqLogoProps> = ({
   }
 
   return (
-    <div className={`flex items-center gap-3 select-none ${className}`}>
+    <div className={`flex items-center gap-2.5 select-none ${className}`} dir="ltr">
       {/* Icon Badge */}
       <svg
         viewBox="0 0 150 150"
@@ -61,14 +61,14 @@ export const LogiqLogo: React.FC<LogiqLogoProps> = ({
         </g>
       </svg>
 
-      {/* Wordmark */}
-      <div className="flex items-center tracking-tight font-bold font-sans">
+      {/* Wordmark (Always LTR Latin) */}
+      <div className="flex items-center tracking-tight font-bold font-sans" dir="ltr">
         <span className="text-white text-2xl md:text-3xl font-extrabold tracking-tight">
           logi
         </span>
         <span className="text-[#2BB8B3] text-2xl md:text-3xl font-extrabold tracking-tight relative">
           q
-          <span className="inline-block w-2 h-2 rounded-full bg-[#34D6BA] absolute -bottom-1 -right-0.5 shadow-[0_0_8px_#34D6BA]"></span>
+          <span className="inline-block w-2 h-2 rounded-full bg-[#34D6BA] absolute -bottom-1 -right-0.5 shadow-[0_0_8px_#34D6BA]" />
         </span>
       </div>
     </div>

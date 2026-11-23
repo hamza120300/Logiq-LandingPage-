@@ -20,7 +20,7 @@ export const CTASection: React.FC<CTASectionProps> = ({ onOpenContact }) => {
     <section id="contact" className="relative py-24 bg-[#07151E] overflow-hidden scroll-mt-24">
       <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Glow Container */}
-        <div className="relative rounded-3xl p-8 sm:p-14 bg-gradient-to-br from-[#0B1C2E] via-[#0E2436] to-[#0A6F7A]/30 border border-[#0A6F7A]/50 shadow-[0_0_60px_rgba(10,111,122,0.35)] text-center overflow-hidden">
+        <div className="relative rounded-3xl px-5 py-10 sm:p-14 bg-gradient-to-br from-[#0B1C2E] via-[#0E2436] to-[#0A6F7A]/30 border border-[#0A6F7A]/50 shadow-[0_0_60px_rgba(10,111,122,0.35)] text-center overflow-hidden">
           {/* Subtle light bursts */}
           <div className="absolute -top-24 -start-24 w-72 h-72 bg-[#34D6BA]/20 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -end-24 w-72 h-72 bg-[#0A6F7A]/40 rounded-full blur-3xl pointer-events-none" />
@@ -32,7 +32,7 @@ export const CTASection: React.FC<CTASectionProps> = ({ onOpenContact }) => {
           </div>
 
           {/* Title */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight max-w-3xl mx-auto">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight max-w-3xl mx-auto">
             {t.cta.title}
           </h2>
 
