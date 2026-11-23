@@ -1,59 +1,81 @@
 import React from 'react';
+import { Compass, Sliders, Rocket, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { SectionHeader } from './SectionHeader';
 
 export const HowItWorks: React.FC = () => {
   const { t, dir } = useLanguage();
 
+  const getStepIcon = (index: number) => {
+    switch (index) {
+      case 0:
+        return <Compass className="w-6 h-6 text-[#34D6BA]" />;
+      case 1:
+        return <Sliders className="w-6 h-6 text-[#2BB8B3]" />;
+      case 2:
+        return <Rocket className="w-6 h-6 text-[#34D6BA]" />;
+      default:
+        return <Check className="w-6 h-6 text-[#34D6BA]" />;
+    }
+  };
+
   return (
-    <section id="how-it-works" className="relative py-24 bg-[#07151E] overflow-hidden">
+    <section id="how-it-works" className="relative py-24 bg-[#07151E] overflow-hidden scroll-mt-24">
+      {/* Background radial ambiance */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-[#0A6F7A]/10 rounded-full blur-[140px]" />
+      </div>
+
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0E2436] border border-[#0A6F7A]/40 text-[#34D6BA] text-xs font-semibold uppercase tracking-wider mb-4">
-            {t.howItWorks.badge}
-          </div>
+        <SectionHeader
+          badge={t.howItWorks.badge}
+          title={t.howItWorks.title}
+          highlight={t.howItWorks.titleHighlight}
+          subtitle={t.howItWorks.subtitle}
+        />
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-            {t.howItWorks.title}{' '}
-            <span className="text-[#2BB8B3] drop-shadow-[0_0_25px_rgba(43,184,179,0.5)]">
-              {t.howItWorks.titleHighlight}
-            </span>
-          </h2>
-
-          <p className="mt-4 text-base sm:text-lg text-slate-300">
-            {t.howItWorks.subtitle}
-          </p>
-        </div>
-
-        {/* 3 Step Connected Cards */}
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
-          {/* Connecting line on desktop */}
-          <div className="hidden md:block absolute top-1/2 left-12 right-12 h-0.5 bg-gradient-to-r from-[#0A6F7A]/20 via-[#34D6BA]/40 to-[#0A6F7A]/20 -translate-y-12 z-0" />
+        {/* 3 Step Cards with anchored connecting bar */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          {/* Connecting line on desktop anchored at the exact height of the badges */}
+          <div
+            className="hidden md:block absolute top-10 start-16 end-16 h-0.5 bg-gradient-to-r from-[#0A6F7A]/30 via-[#34D6BA]/50 to-[#0A6F7A]/30 pointer-events-none z-0"
+            aria-hidden="true"
+          />
 
           {t.howItWorks.steps.map((step, idx) => (
             <div
               key={step.number}
-              className="relative z-10 rounded-2xl p-8 bg-[#0B1C2E]/90 border border-[#0A6F7A]/30 hover:border-[#34D6BA]/60 transition-all duration-300 shadow-xl flex flex-col group hover:-translate-y-1"
+              className="relative z-10 rounded-2xl p-8 bg-[#0B1C2E]/90 border border-[#0A6F7A]/30 hover:border-[#34D6BA]/60 transition-all duration-300 shadow-xl flex flex-col justify-between group hover:-translate-y-1.5"
             >
-              {/* Number Badge */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0A6F7A] to-[#2BB8B3] flex items-center justify-center text-white font-extrabold font-mono text-xl shadow-[0_0_20px_rgba(43,184,179,0.35)] group-hover:scale-110 transition-transform duration-300">
-                  {step.number}
+              <div>
+                {/* Header Row: Number Badge & Icon */}
+                <div className="flex items-center justify-between mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0A6F7A] to-[#2BB8B3] flex items-center justify-center text-white font-black font-mono text-xl shadow-[0_0_20px_rgba(43,184,179,0.35)] group-hover:scale-110 transition-transform duration-300">
+                    {step.number}
+                  </div>
+                  <div className="p-3 rounded-xl bg-[#07151E] border border-[#0A6F7A]/40 flex items-center justify-center">
+                    {getStepIcon(idx)}
+                  </div>
                 </div>
-                <span className="text-xs font-mono font-semibold text-slate-500 uppercase">
-                  {dir === 'rtl' ? `المرحلة ${idx + 1}` : `Phase ${idx + 1}`}
-                </span>
+
+                {/* Title */}
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#34D6BA] transition-colors duration-200">
+                  {step.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm text-slate-300 leading-relaxed font-normal mb-6">
+                  {step.description}
+                </p>
               </div>
 
-              {/* Title */}
-              <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#34D6BA] transition-colors duration-200">
-                {step.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-sm text-slate-300 leading-relaxed">
-                {step.description}
-              </p>
+              {/* Step Detail Footer */}
+              <div className="pt-4 border-t border-[#0A6F7A]/25 flex items-center justify-between text-xs text-[#2BB8B3] font-semibold">
+                <span>{step.detail}</span>
+                <span className="font-mono text-slate-400">
+                  {dir === 'rtl' ? `المرحلة 0${idx + 1}` : `Phase 0${idx + 1}`}
+                </span>
+              </div>
             </div>
           ))}
         </div>

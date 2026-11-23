@@ -6,10 +6,12 @@ import { Solutions } from './components/Solutions';
 import { Features } from './components/Features';
 import { HowItWorks } from './components/HowItWorks';
 import { WhyLogiq } from './components/WhyLogiq';
+import { SocialProof } from './components/SocialProof';
 import { CTASection } from './components/CTASection';
 import { Footer } from './components/Footer';
 import { LoginModal } from './components/LoginModal';
 import { ContactModal } from './components/ContactModal';
+import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 
 const MainLayout: React.FC = () => {
   const { dir } = useLanguage();
@@ -27,20 +29,20 @@ const MainLayout: React.FC = () => {
       className="min-h-screen bg-[#07151E] text-slate-100 selection:bg-[#2BB8B3] selection:text-white"
       dir={dir}
     >
-      {/* Top Navbar */}
+      {/* Top Navbar with Scroll Progress Bar & Section Spy */}
       <Navbar
         onOpenLogin={() => setIsLoginOpen(true)}
         onOpenContact={() => handleOpenContact()}
       />
 
       <main>
-        {/* Hero Section */}
+        {/* Hero Section with Live Mockup & Video Demo */}
         <Hero onOpenContact={() => handleOpenContact()} />
 
         {/* Business Solutions ("مهما كان نشاطك") */}
         <Solutions onSelectSector={(sectorId) => handleOpenContact(sectorId)} />
 
-        {/* Enterprise SaaS Features */}
+        {/* Enterprise SaaS Features Bento Grid */}
         <Features />
 
         {/* 3-Step Journey */}
@@ -49,12 +51,18 @@ const MainLayout: React.FC = () => {
         {/* Value Drivers & Proof */}
         <WhyLogiq />
 
-        {/* Bottom Call to Action */}
+        {/* Social Proof: Client Marquee & Verified Testimonials */}
+        <SocialProof />
+
+        {/* Bottom Call to Action with WhatsApp */}
         <CTASection onOpenContact={() => handleOpenContact()} />
       </main>
 
       {/* Global Footer */}
       <Footer />
+
+      {/* Floating WhatsApp Quick Action Button */}
+      <FloatingWhatsApp />
 
       {/* Interactive Modals */}
       <LoginModal isOpen={isLoginOpen} onClose={() => setIsLoginOpen(false)} />
