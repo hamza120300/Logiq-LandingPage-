@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Send, Building, Phone, User, MessageSquare } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, CheckCircle2, Send, Building, Phone, User, MessageSquare, ChevronDown, Check } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { LogiqLogo } from './LogiqLogo';
 
@@ -17,6 +17,22 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, def
   const [notes, setNotes] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const sectorOptions = [
+    { id: 'retail', ar: 'محل تجاري / سوبر ماركت / ملابس', en: 'Retail / Supermarket / Apparel', color: '#2BB8B3' },
+    { id: 'pharmacy', ar: 'صيدلية ومستلزمات طبية', en: 'Pharmacy & Medical', color: '#34D6BA' },
+    { id: 'warehouse', ar: 'مخزن وتجارة جملة', en: 'Warehouse & Wholesale', color: '#F59E0B' },
+    { id: 'cafe', ar: 'كافيه أو مطعم', en: 'Café or Restaurant', color: '#F43F5E' },
+    { id: 'gaming', ar: 'بلايستيشن ولاونج ترفيهي', en: 'PlayStation & Gaming Lounge', color: '#A855F7' },
+    { id: 'center', ar: 'سنتر تعليمي أو أكاديمية', en: 'Educational Center or Academy', color: '#10B981' },
+    { id: 'other', ar: 'نشاط تجاري آخر', en: 'Other Business Type', color: '#94A3B8' },
+  ];
+
+  const selectedOption = sectorOptions.find((opt) => opt.id === businessType) || sectorOptions[0];
 
   // Fix: Synchronize defaultSector whenever modal opens or selected sector changes
   useEffect(() => {
@@ -25,9 +41,36 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, def
     }
   }, [defaultSector, isOpen]);
 
+  // Click outside listener for custom dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (dropdownOpen) {
+          setDropdownOpen(false);
+        } else {
+          onClose();
+        }
+      }
     };
 
     if (isOpen) {
@@ -41,7 +84,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, def
       document.body.style.overflow = 'unset';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, dropdownOpen]);
 
   if (!isOpen) return null;
 
@@ -67,7 +110,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, def
       onClick={onClose}
     >
       <div
-        className="relative z-10 w-full max-w-lg rounded-3xl bg-[#0B1C2E] border border-[#0A6F7A]/50 p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(10,111,122,0.3)] text-start"
+        className="relative z-10 w-full max-w-lg rounded-3xl bg-[#0B1C2E] border border-[#0A6F7A]/50 p-6 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(10,111,122,0.3)] text-start max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         dir={dir}
       >
@@ -135,25 +178,105 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, def
               />
             </div>
 
-            <div>
+            {/* Custom Business Category Dropdown */}
+            <div className="relative">
               <label htmlFor="contact-activity" className="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center gap-1.5">
                 <Building className="w-3.5 h-3.5 text-[#2BB8B3]" />
                 <span>{t.contactModal.activityLabel}</span>
               </label>
-              <select
+
+              {/* Trigger Button with Ample Arrow Spacing */}
+              <button
+                ref={triggerRef}
+                type="button"
                 id="contact-activity"
-                value={businessType}
-                onChange={(e) => setBusinessType(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-[#07151E] border border-[#0A6F7A]/40 text-white text-sm focus:outline-none focus:border-[#34D6BA] focus:ring-1 focus:ring-[#34D6BA] transition-all"
+                aria-haspopup="listbox"
+                aria-expanded={dropdownOpen}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className={`w-full px-4 py-3.5 rounded-xl bg-[#07151E] border text-sm flex items-center justify-between transition-all focus:outline-none focus:ring-1 focus:ring-[#34D6BA] ${
+                  dropdownOpen
+                    ? 'border-[#34D6BA] shadow-[0_0_15px_rgba(52,214,186,0.25)]'
+                    : 'border-[#0A6F7A]/40 hover:border-[#2BB8B3]/60'
+                }`}
               >
-                <option value="retail">{dir === 'rtl' ? 'محل تجاري / سوبر ماركت / ملابس' : 'Retail / Supermarket / Apparel'}</option>
-                <option value="pharmacy">{dir === 'rtl' ? 'صيدلية ومستلزمات طبية' : 'Pharmacy & Medical'}</option>
-                <option value="warehouse">{dir === 'rtl' ? 'مخزن وتجارة جملة' : 'Warehouse & Wholesale'}</option>
-                <option value="cafe">{dir === 'rtl' ? 'كافيه أو مطعم' : 'Café or Restaurant'}</option>
-                <option value="gaming">{dir === 'rtl' ? 'بلايستيشن ولاونج ترفيهي' : 'PlayStation & Gaming Lounge'}</option>
-                <option value="center">{dir === 'rtl' ? 'سنتر تعليمي أو أكاديمية' : 'Educational Center or Academy'}</option>
-                <option value="other">{dir === 'rtl' ? 'نشاط تجاري آخر' : 'Other Business Type'}</option>
-              </select>
+                <div className="flex items-center gap-3">
+                  <span
+                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    style={{
+                      backgroundColor: selectedOption.color,
+                      boxShadow: `0 0 10px ${selectedOption.color}80`,
+                    }}
+                  />
+                  <span className="font-semibold text-white">
+                    {dir === 'rtl' ? selectedOption.ar : selectedOption.en}
+                  </span>
+                </div>
+
+                {/* Arrow with comfortable spacing and padding */}
+                <div className="flex items-center ps-4 pe-1">
+                  <div
+                    className={`p-1.5 rounded-lg bg-[#0E2436] border border-[#0A6F7A]/50 transition-all duration-200 ${
+                      dropdownOpen
+                        ? 'rotate-180 text-[#34D6BA] border-[#34D6BA]/60 bg-[#0A6F7A]/30'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </div>
+                </div>
+              </button>
+
+              {/* Custom Dropdown Menu List */}
+              {dropdownOpen && (
+                <div
+                  ref={dropdownRef}
+                  role="listbox"
+                  aria-labelledby="contact-activity"
+                  className="absolute top-full start-0 end-0 mt-2 z-50 rounded-2xl bg-[#0B1C2E] border border-[#0A6F7A]/70 shadow-[0_15px_40px_rgba(0,0,0,0.85),0_0_25px_rgba(10,111,122,0.35)] backdrop-blur-2xl p-2 space-y-1 max-h-64 overflow-y-auto animate-fadeIn"
+                >
+                  {sectorOptions.map((opt) => {
+                    const isSelected = businessType === opt.id;
+                    return (
+                      <button
+                        key={opt.id}
+                        role="option"
+                        aria-selected={isSelected}
+                        type="button"
+                        onClick={() => {
+                          setBusinessType(opt.id);
+                          setDropdownOpen(false);
+                        }}
+                        className={`w-full px-3.5 py-3 rounded-xl flex items-center justify-between text-start text-sm transition-all ${
+                          isSelected
+                            ? 'bg-[#0A6F7A]/40 text-white font-bold border border-[#2BB8B3]/60 shadow-[0_0_12px_rgba(43,184,179,0.25)]'
+                            : 'text-slate-300 hover:text-white hover:bg-[#07151E] border border-transparent'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span
+                            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                            style={{
+                              backgroundColor: opt.color,
+                              boxShadow: isSelected ? `0 0 8px ${opt.color}` : 'none',
+                            }}
+                          />
+                          <span>
+                            {dir === 'rtl' ? opt.ar : opt.en}
+                          </span>
+                        </div>
+
+                        {isSelected && (
+                          <div className="flex items-center ps-3">
+                            <span className="w-5 h-5 rounded-full bg-[#34D6BA]/20 border border-[#34D6BA]/40 flex items-center justify-center text-[#34D6BA]">
+                              <Check className="w-3 h-3" />
+                            </span>
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
             <div>
