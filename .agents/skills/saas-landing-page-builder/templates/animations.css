@@ -1,0 +1,120 @@
+/* ========================================================
+   SaaS Landing Page Animation Suite
+   Copy into src/index.css or import in your main style file.
+======================================================== */
+
+/* Float Slow: Drifting ambient glowing orbs */
+@keyframes floatSlow {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(25px, -35px) scale(1.08);
+  }
+  100% {
+    transform: translate(-20px, 25px) scale(0.95);
+  }
+}
+
+/* Float Reverse: Complementary drift for second orb */
+@keyframes floatReverse {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(-30px, 30px) scale(1.12);
+  }
+  100% {
+    transform: translate(25px, -20px) scale(0.92);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 18s ease-in-out infinite alternate;
+}
+
+.animate-float-reverse {
+  animation: floatReverse 22s ease-in-out infinite alternate;
+}
+
+/* Continuous Logo Marquee for Social Proof (RTL & LTR) */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marqueeRTL {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: 200%;
+  animation: marquee 25s linear infinite;
+}
+
+[dir="rtl"] .animate-marquee {
+  animation: marqueeRTL 25s linear infinite;
+}
+
+/* Button Shine Sweep Effect on Hover */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 20%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(25deg);
+  transition: all 0.75s ease;
+}
+
+.shine-effect:hover::after {
+  left: 140%;
+}
+
+/* Subtle Fade-In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Accessibility: Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
